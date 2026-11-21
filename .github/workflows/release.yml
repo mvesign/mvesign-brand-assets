@@ -1,0 +1,101 @@
+# Bij een tag vX.Y.Z: controleren, het image bouwen en publiceren in ghcr.io, en een
+# GitHub Release maken met de regels uit CHANGELOG.md. Een versie wordt maar één keer
+# gebouwd, zodat de digest vast blijft. Zie README.md → Een versie maken.
+name: Release
+
+on:
+  push:
+    tags: ['v[0-9]+.[0-9]+.[0-9]+']
+
+permissions:
+  contents: write   # de GitHub Release
+  packages: write   # het image in ghcr.io
+
+env:
+  IMAGE: ghcr.io/${{ github.repository }}
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: dist/ opnieuw genereren
+        run: npm run generate
+
+      - name: dist/ moet kloppen met de bron
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git status --porcelain
+            echo "::error::dist/ klopt niet met de bron: draai npm run generate en commit dist/."
+            exit 1
+          fi
+
+      - run: npm test
+
+      - name: Tag, package.json en CHANGELOG.md controleren
+        id: release
+        run: |
+          node scripts/release-notes.mjs "$GITHUB_REF_NAME" > "$RUNNER_TEMP/notes.md"
+          echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+      - name: Stoppen als deze versie al bestaat
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          if docker buildx imagetools inspect "$IMAGE:$VERSION" > /dev/null 2>&1; then
+            echo "::error::$IMAGE:$VERSION bestaat al. Een versie wordt maar één keer gebouwd: maak een nieuwe versie."
+            exit 1
+          fi
+
+      - name: Image bouwen en publiceren
+        id: build
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          # Geen provenance en geen SBOM: provenance bevat tijdstippen, en geeft dus bij
+          # elke build een andere digest.
+          provenance: false
+          sbom: false
+          tags: ${{ env.IMAGE }}:${{ steps.release.outputs.version }}
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.version=${{ steps.release.outputs.version }}
+            org.opencontainers.image.licenses=MIT AND OFL-1.1 AND LicenseRef-mvesign-logo
+            org.opencontainers.image.description=Huisstijl van mvesign: kleuren, lettertype en logo.
+
+      - name: GitHub Release maken
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.release.outputs.version }}
+        run: gh release create "$GITHUB_REF_NAME" --title "$VERSION" --notes-file "$RUNNER_TEMP/notes.md" --verify-tag
+
+      - name: Verwijzing voor de afnemers
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+          DIGEST: ${{ steps.build.outputs.digest }}
+        run: |
+          {
+            echo "### $IMAGE:$VERSION"
+            echo
+            echo "Verwijzing met digest, voor de server:"
+            echo
+            echo "    $IMAGE:$VERSION@$DIGEST"
+          } >> "$GITHUB_STEP_SUMMARY"

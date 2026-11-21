@@ -1,0 +1,26 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Houdt Node (.nvmrc), resvg en de GitHub Actions bij. De lettertypen werk je met de hand bij (README → Iets wijzigen).",
+  "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
+  "timezone": "Europe/Amsterdam",
+  "schedule": ["before 7am on monday"],
+  "prHourlyLimit": 0,
+  "major": {
+    "dependencyDashboardApproval": true
+  },
+  "packageRules": [
+    {
+      "description": "Alle kleine updates samen in één wekelijkse PR.",
+      "matchUpdateTypes": ["minor", "patch", "digest", "pin", "pinDigest"],
+      "groupName": "wekelijkse updates",
+      "groupSlug": "wekelijks"
+    },
+    {
+      "description": "Een nieuwe resvg kan andere PNG's maken; de CI faalt dan tot dist/ opnieuw gegenereerd is.",
+      "matchPackageNames": ["@resvg/resvg-wasm"],
+      "prBodyNotes": [
+        "Zegt de CI dat `dist/` niet klopt, draai dan `npm run generate` en commit `dist/` in deze PR. Een nieuwe versie van het pakket is dan een patch."
+      ]
+    }
+  ]
+}

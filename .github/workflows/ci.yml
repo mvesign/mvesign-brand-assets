@@ -1,0 +1,46 @@
+# Bij elke push naar main en elke pull request: dist/ moet kloppen met de bron, de tests
+# moeten slagen, en het image moet te bouwen zijn. Publiceren gebeurt in release.yml.
+# De versie in package.json moet een kop in CHANGELOG.md hebben, zodat een tag daar nooit op faalt.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: dist/ opnieuw genereren
+        run: npm run generate
+
+      - name: dist/ moet kloppen met de bron
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git status --porcelain
+            echo "::error::dist/ klopt niet met de bron: draai npm run generate en commit dist/."
+            exit 1
+          fi
+
+      - run: npm test
+
+      - name: Klaar voor een release (versie en CHANGELOG.md)
+        run: node scripts/release-notes.mjs "v$(node -p "require('./package.json').version")" > /dev/null
+
+      - name: Image bouwen, zonder push
+        run: docker build .

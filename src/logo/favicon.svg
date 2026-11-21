@@ -1,0 +1,14 @@
+<!-- Favicon van mvesign: een blauw vlak met afgeronde hoeken, onderaan een diepblauwe
+     strook, en mv in goud. Gemaakt met scripts/outline-text.py. scripts/generate.mjs vult
+     de kleuren uit src/tokens.json, en {{corner}} met de straal van de hoeken. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <clipPath id="mv-favicon-shape"><rect width="64" height="64" rx="{{corner}}"/></clipPath>
+  <g clip-path="url(#mv-favicon-shape)">
+    <rect width="64" height="64" fill="{{color.light.bar}}"/>
+    <rect y="50" width="64" height="14" fill="{{color.light.bar_edge}}"/>
+  </g>
+  <g fill="{{color.light.accent}}">
+    <path d="M29.49 16.27Q32.42 16.27 33.98 17.77Q35.53 19.27 35.53 22.57V33.73H29.61V24.4Q29.61 22.45 29.09 21.69Q28.56 20.92 27.54 20.92Q26.1 20.92 25.54 22.18Q24.99 23.43 24.99 25.73V33.73H19.06V24.4Q19.06 23.16 18.84 22.4Q18.62 21.63 18.18 21.28Q17.74 20.92 17.08 20.92Q16.06 20.92 15.49 21.53Q14.93 22.15 14.7 23.33Q14.47 24.51 14.47 26.22V33.73H8.55V16.58H13.02L13.88 18.7H14.05Q14.5 18 15.22 17.45Q15.94 16.91 16.93 16.59Q17.92 16.27 19.19 16.27Q21.09 16.27 22.31 16.91Q23.54 17.55 24.31 18.67H24.49Q25.31 17.51 26.6 16.89Q27.88 16.27 29.49 16.27Z"/>
+    <path d="M43.05 33.73 36.51 16.58H42.69L45.59 26.72Q45.64 26.85 45.75 27.41Q45.86 27.97 45.86 28.46H45.97Q45.97 27.94 46.08 27.47Q46.18 27.01 46.24 26.75L49.29 16.58H55.45L48.91 33.73Z"/>
+  </g>
+</svg>

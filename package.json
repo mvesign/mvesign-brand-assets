@@ -1,0 +1,30 @@
+{
+  "name": "mvesign-brand-assets",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Huisstijl van mvesign: kleuren, lettertype en logo.",
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mvesign/mvesign-brand-assets.git"
+  },
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    "./tokens.css": "./dist/tokens.css",
+    "./tokens.json": "./dist/tokens.json",
+    "./fonts.css": "./dist/fonts.css",
+    "./fonts/*": "./dist/fonts/*",
+    "./logo/*": "./dist/logo/*",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "generate": "node scripts/generate.mjs",
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "@resvg/resvg-wasm": "2.6.2"
+  }
+}

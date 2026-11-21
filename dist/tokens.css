@@ -1,0 +1,138 @@
+/* Gegenereerd door scripts/generate.mjs uit src/. Niet met de hand wijzigen. */
+:root {
+  --mv-font: 'Open Sans', Arial, sans-serif;
+  --mv-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+  --mv-font-weight-regular: 400;
+  --mv-font-weight-semibold: 600;
+  --mv-font-weight-bold: 700;
+  --mv-font-weight-extrabold: 800;
+  --mv-font-size-heading: 22px;
+  --mv-font-size-body: 16px;
+  --mv-font-size-small: 13px;
+  --mv-font-size-code: 14px;
+  --mv-radius: 5px;
+  --mv-bar-edge-width: 8px;
+
+  --mv-light-bg: #FAFAFA;
+  --mv-light-bg-rgb: 250 250 250;
+  --mv-light-surface: #FFFFFF;
+  --mv-light-surface-rgb: 255 255 255;
+  --mv-light-text: #525654;
+  --mv-light-text-rgb: 82 86 84;
+  --mv-light-text-strong: #2B302E;
+  --mv-light-text-strong-rgb: 43 48 46;
+  --mv-light-muted: #6A706D;
+  --mv-light-muted-rgb: 106 112 109;
+  --mv-light-line: #DDE1DF;
+  --mv-light-line-rgb: 221 225 223;
+  --mv-light-soft: #EDF3F6;
+  --mv-light-soft-rgb: 237 243 246;
+  --mv-light-link: #0376A2;
+  --mv-light-link-rgb: 3 118 162;
+  --mv-light-bar: #0376A2;
+  --mv-light-bar-rgb: 3 118 162;
+  --mv-light-bar-edge: #035A88;
+  --mv-light-bar-edge-rgb: 3 90 136;
+  --mv-light-on-bar: #FFFFFF;
+  --mv-light-on-bar-rgb: 255 255 255;
+  --mv-light-button: #0376A2;
+  --mv-light-button-rgb: 3 118 162;
+  --mv-light-on-button: #FFFFFF;
+  --mv-light-on-button-rgb: 255 255 255;
+  --mv-light-accent: #EEBB66;
+  --mv-light-accent-rgb: 238 187 102;
+  --mv-light-error: #A64452;
+  --mv-light-error-rgb: 166 68 82;
+  --mv-light-ok: #2A8452;
+  --mv-light-ok-rgb: 42 132 82;
+
+  --mv-dark-bg: #11171A;
+  --mv-dark-bg-rgb: 17 23 26;
+  --mv-dark-surface: #182126;
+  --mv-dark-surface-rgb: 24 33 38;
+  --mv-dark-text: #C9D1CE;
+  --mv-dark-text-rgb: 201 209 206;
+  --mv-dark-text-strong: #EEF2F0;
+  --mv-dark-text-strong-rgb: 238 242 240;
+  --mv-dark-muted: #94A09B;
+  --mv-dark-muted-rgb: 148 160 155;
+  --mv-dark-line: #2A363C;
+  --mv-dark-line-rgb: 42 54 60;
+  --mv-dark-soft: #1E2B33;
+  --mv-dark-soft-rgb: 30 43 51;
+  --mv-dark-link: #5DB4DC;
+  --mv-dark-link-rgb: 93 180 220;
+  --mv-dark-bar: #035A88;
+  --mv-dark-bar-rgb: 3 90 136;
+  --mv-dark-bar-edge: #023F60;
+  --mv-dark-bar-edge-rgb: 2 63 96;
+  --mv-dark-on-bar: #FFFFFF;
+  --mv-dark-on-bar-rgb: 255 255 255;
+  --mv-dark-button: #0376A2;
+  --mv-dark-button-rgb: 3 118 162;
+  --mv-dark-on-button: #FFFFFF;
+  --mv-dark-on-button-rgb: 255 255 255;
+  --mv-dark-accent: #EEBB66;
+  --mv-dark-accent-rgb: 238 187 102;
+  --mv-dark-error: #D98593;
+  --mv-dark-error-rgb: 217 133 147;
+  --mv-dark-ok: #5CC48A;
+  --mv-dark-ok-rgb: 92 196 138;
+
+  --mv-bg: var(--mv-light-bg);
+  --mv-surface: var(--mv-light-surface);
+  --mv-text: var(--mv-light-text);
+  --mv-text-strong: var(--mv-light-text-strong);
+  --mv-muted: var(--mv-light-muted);
+  --mv-line: var(--mv-light-line);
+  --mv-soft: var(--mv-light-soft);
+  --mv-link: var(--mv-light-link);
+  --mv-bar: var(--mv-light-bar);
+  --mv-bar-edge: var(--mv-light-bar-edge);
+  --mv-on-bar: var(--mv-light-on-bar);
+  --mv-button: var(--mv-light-button);
+  --mv-on-button: var(--mv-light-on-button);
+  --mv-accent: var(--mv-light-accent);
+  --mv-error: var(--mv-light-error);
+  --mv-ok: var(--mv-light-ok);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --mv-bg: var(--mv-dark-bg);
+    --mv-surface: var(--mv-dark-surface);
+    --mv-text: var(--mv-dark-text);
+    --mv-text-strong: var(--mv-dark-text-strong);
+    --mv-muted: var(--mv-dark-muted);
+    --mv-line: var(--mv-dark-line);
+    --mv-soft: var(--mv-dark-soft);
+    --mv-link: var(--mv-dark-link);
+    --mv-bar: var(--mv-dark-bar);
+    --mv-bar-edge: var(--mv-dark-bar-edge);
+    --mv-on-bar: var(--mv-dark-on-bar);
+    --mv-button: var(--mv-dark-button);
+    --mv-on-button: var(--mv-dark-on-button);
+    --mv-accent: var(--mv-dark-accent);
+    --mv-error: var(--mv-dark-error);
+    --mv-ok: var(--mv-dark-ok);
+  }
+}
+
+:root[data-theme="dark"] {
+  --mv-bg: var(--mv-dark-bg);
+  --mv-surface: var(--mv-dark-surface);
+  --mv-text: var(--mv-dark-text);
+  --mv-text-strong: var(--mv-dark-text-strong);
+  --mv-muted: var(--mv-dark-muted);
+  --mv-line: var(--mv-dark-line);
+  --mv-soft: var(--mv-dark-soft);
+  --mv-link: var(--mv-dark-link);
+  --mv-bar: var(--mv-dark-bar);
+  --mv-bar-edge: var(--mv-dark-bar-edge);
+  --mv-on-bar: var(--mv-dark-on-bar);
+  --mv-button: var(--mv-dark-button);
+  --mv-on-button: var(--mv-dark-on-button);
+  --mv-accent: var(--mv-dark-accent);
+  --mv-error: var(--mv-dark-error);
+  --mv-ok: var(--mv-dark-ok);
+}

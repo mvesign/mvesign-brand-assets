@@ -1,5 +1,6 @@
 # Bij elke push naar main en elke pull request: dist/ moet kloppen met de bron, de tests
 # moeten slagen, en het image moet te bouwen zijn. Publiceren gebeurt in release.yml.
+# De versie in package.json moet een kop in CHANGELOG.md hebben, zodat een tag daar nooit op faalt.
 name: CI
 
 on:
@@ -15,6 +16,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
@@ -35,6 +38,9 @@ jobs:
           fi
 
       - run: npm test
+
+      - name: Klaar voor een release (versie en CHANGELOG.md)
+        run: node scripts/release-notes.mjs "v$(node -p "require('./package.json').version")" > /dev/null
 
       - name: Image bouwen, zonder push
         run: docker build .

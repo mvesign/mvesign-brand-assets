@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
@@ -78,6 +80,9 @@ jobs:
           labels: |
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
             org.opencontainers.image.version=${{ steps.release.outputs.version }}
+          # De beschrijving op de pakketpagina komt bij een multi-arch image uit de index.
+          annotations: |
+            index:org.opencontainers.image.description=Huisstijl van mvesign: kleuren, lettertype en logo.
             org.opencontainers.image.licenses=MIT AND OFL-1.1 AND LicenseRef-mvesign-logo
             org.opencontainers.image.description=Huisstijl van mvesign: kleuren, lettertype en logo.
 

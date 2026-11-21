@@ -239,7 +239,8 @@ De wasm-versie van resvg geeft op Windows en Linux dezelfde bytes. Zo kan de CI 
 2. `npm run generate`.
 3. `git status --porcelain` moet leeg zijn. Zo niet, dan faalt de stap met: "dist/ klopt niet met de bron: draai npm run generate en commit dist/."
 4. `npm test`.
-5. `docker build .`, zonder push.
+5. De versie in `package.json` moet een kop in `CHANGELOG.md` hebben (`node scripts/release-notes.mjs v<versie>`), zodat een tag daar nooit op faalt.
+6. `docker build .`, zonder push.
 
 Actions staan vast op een commit-SHA, met de versie als comment.
 

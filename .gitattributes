@@ -1,0 +1,4 @@
+# Alles LF, ook op Windows (core.autocrlf=true): de CI vergelijkt dist/ byte voor byte.
+* text=auto eol=lf
+*.woff2 binary
+*.png binary

@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
-import { kebab, MODES } from '../scripts/lib/tokens.mjs';
+import { hexToRgb, kebab, MODES } from '../scripts/lib/tokens.mjs';
 import { pngSize } from '../scripts/lib/png.mjs';
 
 const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url));
@@ -22,7 +22,7 @@ test('tokens.css heeft elke kleur vast licht, vast donker, met -rgb, en actief',
     const cssName = kebab(name);
     for (const mode of MODES) {
       assert.ok(css.includes(`--mv-${mode}-${cssName}: ${source.color[name][mode]};`), `${mode} ${name}`);
-      assert.match(css, new RegExp(`--mv-${mode}-${cssName}-rgb: \\d{1,3} \\d{1,3} \\d{1,3};`));
+      assert.ok(css.includes(`--mv-${mode}-${cssName}-rgb: ${hexToRgb(source.color[name][mode])};`), `rgb ${mode} ${name}`);
       assert.ok(css.includes(`--mv-${cssName}: var(--mv-${mode}-${cssName});`), `actief ${mode} ${name}`);
     }
   }

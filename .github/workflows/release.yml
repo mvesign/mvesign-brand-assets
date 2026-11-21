@@ -80,11 +80,11 @@ jobs:
           labels: |
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
             org.opencontainers.image.version=${{ steps.release.outputs.version }}
+            org.opencontainers.image.licenses=MIT AND OFL-1.1 AND LicenseRef-mvesign-logo
+            org.opencontainers.image.description=Huisstijl van mvesign: kleuren, lettertype en logo.
           # De beschrijving op de pakketpagina komt bij een multi-arch image uit de index.
           annotations: |
             index:org.opencontainers.image.description=Huisstijl van mvesign: kleuren, lettertype en logo.
-            org.opencontainers.image.licenses=MIT AND OFL-1.1 AND LicenseRef-mvesign-logo
-            org.opencontainers.image.description=Huisstijl van mvesign: kleuren, lettertype en logo.
 
       - name: GitHub Release maken
         env:

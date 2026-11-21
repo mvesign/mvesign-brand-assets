@@ -36,7 +36,7 @@ npm pack @fontsource-variable/open-sans@5.3.0
 tar -xzf fontsource-variable-open-sans-5.3.0.tgz
 ```
 
-Kopieer `package/files/open-sans-latin-wght-normal.woff2`, `package/files/open-sans-latin-ext-wght-normal.woff2` en `package/LICENSE` (als `OFL.txt`) naar `src/fonts/`. Neem de `unicode-range` uit `package/wght.css` over in `src/fonts/fonts.json`, en zet de nieuwe versie bij `source`.
+Kopieer `package/files/open-sans-latin-wght-normal.woff2`, `package/files/open-sans-latin-ext-wght-normal.woff2` en `package/LICENSE` (als `OFL.txt`) naar `src/fonts/` in de repository. Neem de `unicode-range` uit `package/wght.css` over in `src/fonts/fonts.json`, en zet de nieuwe versie bij `source`.
 
 ## Een versie maken
 
@@ -61,6 +61,14 @@ Kopieer `package/files/open-sans-latin-wght-normal.woff2`, `package/files/open-s
    ```
 
 De workflow *Release* controleert tag, `package.json` en `CHANGELOG.md`, bouwt `ghcr.io/mvesign/mvesign-brand-assets:1.1.0` en maakt een GitHub Release. Een versie die al bestaat, bouwt hij niet opnieuw. De verwijzing met digest staat in de samenvatting van de run.
+
+Is het image gepubliceerd maar de GitHub Release mislukt, dan stopt een nieuwe run bij "bestaat al". Maak de Release dan zelf, vanuit de root van de repository, met een account dat schrijfrechten heeft:
+
+```bash
+version=1.1.0
+node scripts/release-notes.mjs "v$version" > /tmp/notes.md
+gh release create "v$version" --title "$version" --notes-file /tmp/notes.md --verify-tag
+```
 
 ## Gebruiken
 

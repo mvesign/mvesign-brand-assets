@@ -23,5 +23,8 @@
   "scripts": {
     "generate": "node scripts/generate.mjs",
     "test": "node --test"
+  },
+  "devDependencies": {
+    "@resvg/resvg-wasm": "2.6.2"
   }
 }

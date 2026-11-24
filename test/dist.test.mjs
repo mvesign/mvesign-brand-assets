@@ -12,7 +12,14 @@ const source = JSON.parse(read('src/tokens.json'));
 
 test('dist/ bevat precies de bestanden van het pakket', () => {
   assert.deepEqual(list(''), ['fonts', 'fonts.css', 'logo', 'tokens.css', 'tokens.json']);
-  assert.deepEqual(list('fonts'), ['OFL.txt', 'open-sans-latin-ext-wght-normal.woff2', 'open-sans-latin-wght-normal.woff2']);
+  assert.deepEqual(list('fonts'), [
+    'ibm-plex-mono-OFL.txt',
+    'ibm-plex-mono-latin-400-normal.woff2',
+    'ibm-plex-mono-latin-ext-400-normal.woff2',
+    'ibm-plex-sans-OFL.txt',
+    'ibm-plex-sans-latin-ext-wght-normal.woff2',
+    'ibm-plex-sans-latin-wght-normal.woff2',
+  ]);
   assert.deepEqual(list('logo'), ['apple-touch-icon.png', 'favicon.svg', 'icon-192.png', 'icon-512.png', 'wordmark.svg']);
 });
 

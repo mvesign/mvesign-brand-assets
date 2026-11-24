@@ -1,11 +1,10 @@
 /* Gegenereerd door scripts/generate.mjs uit src/. Niet met de hand wijzigen. */
 :root {
-  --mv-font: 'Open Sans', Arial, sans-serif;
-  --mv-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+  --mv-font: 'IBM Plex Sans', system-ui, 'Segoe UI', Arial, sans-serif;
+  --mv-font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
   --mv-font-weight-regular: 400;
   --mv-font-weight-semibold: 600;
   --mv-font-weight-bold: 700;
-  --mv-font-weight-extrabold: 800;
   --mv-font-size-heading: 22px;
   --mv-font-size-body: 16px;
   --mv-font-size-small: 13px;

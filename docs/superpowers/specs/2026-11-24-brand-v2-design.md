@@ -126,16 +126,15 @@ Eén blok per familie, in plaats van één familie voor het hele bestand:
 
 ## Genereren en testen
 
-- **`scripts/lib/tokens.mjs`:** het script controleert ook dat elke familie uit `fonts.json` voorkomt in `font.family` of vooraan in `font.mono`. Zo kan een lettertype niet stil uit de stack vallen.
+- **`scripts/lib/fonts.mjs`:** `npm run generate` controleert `fonts.json` tegen de lettertokens: elke familie staat in `font.family` of vooraan in `font.mono`, en elk gewicht in `font.weight` valt binnen de familie van `font.family`. Zo kan een lettertype niet stil uit de stack vallen, en komt een gewicht als 800 niet terug.
 - **Nieuwe tests:**
   - elk gewicht in `font.weight` valt binnen het bereik van de familie in `font.family`, volgens `fonts.json` (vangt een nieuw `extrabold` van 800);
   - elke familie uit `fonts.json` staat in `font.family` of vooraan in `font.mono`;
   - de favicon gebruikt `bar` en `accent`, en geen `bar_edge`.
 - **Aangepaste tests:**
   - `fonts.test.mjs` voor `buildFontsCss` per familie, en voor de bestanden en licenties uit `fonts.json`;
-  - `dist.test.mjs` voor de nieuwe lijst in `dist/fonts/`;
-  - de voorbeelden in `tokens.test.mjs` voor de nieuwe font-sleutels.
-- **Ongewijzigd:** de contrasttest, de maten van de PNG's en de controle op `{{` in de SVG's.
+  - `dist.test.mjs` voor de nieuwe lijst in `dist/fonts/`.
+- **Ongewijzigd:** de contrasttest, `tokens.test.mjs` (de sleutels onder `font` blijven gelijk), de maten van de PNG's en de controle op `{{` in de SVG's.
 
 ## Documentatie
 

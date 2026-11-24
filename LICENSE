@@ -2,8 +2,9 @@ The name "mvesign", the mvesign wordmark and the mvesign favicon, including the
 files in src/logo/ and dist/logo/, are not covered by the MIT License below.
 All rights reserved.
 
-Open Sans (src/fonts/ and dist/fonts/) is licensed under the SIL Open Font
-License, Version 1.1. See dist/fonts/OFL.txt.
+IBM Plex Sans and IBM Plex Mono (src/fonts/ and dist/fonts/) are licensed under
+the SIL Open Font License, Version 1.1. See dist/fonts/ibm-plex-sans-OFL.txt and
+dist/fonts/ibm-plex-mono-OFL.txt.
 
 Everything else in this repository is licensed under the MIT License:
 

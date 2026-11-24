@@ -2,7 +2,7 @@
 
 De huisstijl van mvesign op één plek: kleuren, lettertype en logo. De home server en de website gebruiken een vaste versie, en krijgen een nieuwe versie als Renovate-PR.
 
-Het ontwerp en de redenen staan in [de spec](docs/superpowers/specs/2026-11-21-brand-assets-design.md).
+Het ontwerp en de redenen staan in [de spec van 1.0](docs/superpowers/specs/2026-11-21-brand-assets-design.md), en wat 2.0 veranderde (kleuren, letters en logo) in [de spec van 2.0](docs/superpowers/specs/2026-11-24-brand-v2-design.md).
 
 ## Wat erin zit
 
@@ -12,9 +12,9 @@ Het pakket is de map `dist/`. Die wordt gegenereerd uit `src/`; wijzig hem niet 
 |---|---|
 | `tokens.css` | Custom properties (`--mv-…`). Elke kleur vast licht (`--mv-light-link`), vast donker (`--mv-dark-link`), beide ook als RGB-kanalen (`--mv-light-link-rgb`), en actief (`--mv-link`). Actief volgt de systeemvoorkeur; `<html data-theme="light">` of `"dark"` zet het vast. |
 | `tokens.json` | Dezelfde waarden voor Jinja2 en scripts: `{{ brand.color.light.link }}`, `{{ brand.font.stack }}` |
-| `fonts.css`, `fonts/` | Open Sans (variabel, gewicht 300–800), met de licentie in `fonts/OFL.txt` |
-| `logo/favicon.svg` | De favicon: blauw vlak, diepblauwe strook, "mv" in goud |
-| `logo/wordmark.svg` | Het woordmerk, wit, voor op de blauwe balk |
+| `fonts.css`, `fonts/` | IBM Plex Sans (variabel, gewicht 100–700) en IBM Plex Mono (400), met de licenties in `fonts/ibm-plex-sans-OFL.txt` en `fonts/ibm-plex-mono-OFL.txt` |
+| `logo/favicon.svg` | De favicon: een vlak in de kleur van de balk, met "mv" in goud |
+| `logo/wordmark.svg` | Het woordmerk, licht, voor op de donkere balk |
 | `logo/apple-touch-icon.png`, `logo/icon-192.png`, `logo/icon-512.png` | Voor iOS en een webmanifest |
 
 Goud (`accent`) is nooit een tekstkleur: op wit haalt het maar 1,8:1.
@@ -27,16 +27,22 @@ Goud (`accent`) is nooit een tekstkleur: op wit haalt het maar 1,8:1.
 
 **De vorm van het logo** staat in `scripts/outline-text.py`. Dat Python-script schrijft de sjablonen in `src/logo/`; hoe je het draait, staat bovenaan het script.
 
-**De lettertypen** werk je met de hand bij. Pak het pakket van Fontsource uit in een lege map:
+**De lettertypen** werk je met de hand bij. Pak de pakketten van Fontsource uit in een lege map:
 
 ```bash
-rm -rf /tmp/fontsource && mkdir -p /tmp/fontsource
+rm -rf /tmp/fontsource && mkdir -p /tmp/fontsource/sans /tmp/fontsource/mono
 cd /tmp/fontsource
-npm pack @fontsource-variable/open-sans@5.3.0
-tar -xzf fontsource-variable-open-sans-5.3.0.tgz
+npm pack @fontsource-variable/ibm-plex-sans@5.3.0 @fontsource/ibm-plex-mono@5.3.0
+tar -xzf fontsource-variable-ibm-plex-sans-5.3.0.tgz -C sans
+tar -xzf fontsource-ibm-plex-mono-5.3.0.tgz -C mono
 ```
 
-Kopieer `package/files/open-sans-latin-wght-normal.woff2`, `package/files/open-sans-latin-ext-wght-normal.woff2` en `package/LICENSE` (als `OFL.txt`) naar `src/fonts/` in de repository. Neem de `unicode-range` uit `package/wght.css` over in `src/fonts/fonts.json`, en zet de nieuwe versie bij `source`.
+Kopieer naar `src/fonts/` in de repository:
+
+- uit `sans/package/files/`: `ibm-plex-sans-latin-wght-normal.woff2` en `ibm-plex-sans-latin-ext-wght-normal.woff2`, en `sans/package/LICENSE` als `ibm-plex-sans-OFL.txt`;
+- uit `mono/package/files/`: `ibm-plex-mono-latin-400-normal.woff2` en `ibm-plex-mono-latin-ext-400-normal.woff2`, en `mono/package/LICENSE` als `ibm-plex-mono-OFL.txt`.
+
+Neem de `unicode-range` uit `sans/package/wght.css` en `mono/package/400.css` over in `src/fonts/fonts.json`, en zet de nieuwe versies bij `source`. `npm run generate` controleert dat elke familie in de lettertokens staat en dat geen gewicht buiten het lettertype valt.
 
 ## Een versie maken
 
@@ -75,7 +81,7 @@ gh release create "v$version" --title "$version" --notes-file /tmp/notes.md --ve
 **Home server.** De server pakt het image uit naar een map op de host, en koppelt die map in de containers; zie de docs in de server-repo. Het image heeft de bestanden in `/brand` en geen `CMD`:
 
 ```bash
-image=ghcr.io/mvesign/mvesign-brand-assets:1.0.0
+image=ghcr.io/mvesign/mvesign-brand-assets:2.0.0
 id=$(docker create "$image" none)
 docker cp "$id:/brand/." ./brand
 docker rm "$id"
@@ -86,7 +92,7 @@ docker rm "$id"
 ```json
 {
   "dependencies": {
-    "mvesign-brand-assets": "github:mvesign/mvesign-brand-assets#v1.0.0"
+    "mvesign-brand-assets": "github:mvesign/mvesign-brand-assets#v2.0.0"
   }
 }
 ```
@@ -104,4 +110,4 @@ import 'mvesign-brand-assets/tokens.css';
 
 ## Licentie
 
-MIT, behalve de naam mvesign, het woordmerk en de favicon: alle rechten voorbehouden. Open Sans valt onder de SIL Open Font License 1.1. Zie [LICENSE](LICENSE).
+MIT, behalve de naam mvesign, het woordmerk en de favicon: alle rechten voorbehouden. IBM Plex Sans en IBM Plex Mono vallen onder de SIL Open Font License 1.1. Zie [LICENSE](LICENSE).

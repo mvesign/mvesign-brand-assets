@@ -2,6 +2,8 @@
 
 Datum: 21 november 2026. Status: ontwerp, akkoord per onderdeel in de brainstorm; de spec zelf wacht op akkoord.
 
+Versie 2.0 verandert de kleuren, de letters en het logo: zie [het ontwerp van 24 november](2026-11-24-brand-v2-design.md). Deze spec blijft staan als geschiedenis.
+
 ## Doel
 
 Eén huisstijl voor alles van mvesign: de home server (`mvesign/mvesign-infra-homeserver`, met Homepage, News, Nextcloud, Paperless en Gatus) en de nieuwe website `mvesign-web-www`. De huisstijl staat op één plek, in deze openbare repo. Elke plek die hem gebruikt, krijgt een nieuwe versie als update (een Renovate-PR), niet direct live.

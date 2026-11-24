@@ -37,6 +37,13 @@ test('de sjablonen in src/logo/ gebruiken alleen bestaande verwijzingen', () => 
   }
 });
 
+test('de favicon is een vlak in bar met de mv in accent, zonder strook', () => {
+  const svg = read('src/logo/favicon.svg');
+  assert.ok(svg.includes('fill="{{color.light.bar}}"'), 'vlak in bar');
+  assert.ok(svg.includes('fill="{{color.light.accent}}"'), 'mv in accent');
+  assert.ok(!svg.includes('bar_edge'), 'geen strook in bar_edge');
+});
+
 test('het woordmerk heeft de m en de v in een groep met class mv', () => {
   const svg = read('src/logo/wordmark.svg');
   const group = svg.match(/<g class="mv"[^>]*>([\s\S]*?)<\/g>/);

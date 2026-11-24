@@ -1,8 +1,8 @@
 """Maakt de logo-sjablonen src/logo/favicon.svg en src/logo/wordmark.svg.
 
 Draai dit alleen als de vorm van het logo verandert; scripts/generate.mjs gebruikt de
-sjablonen bij elke build, en de CI draait dit script niet. Het zet de letters van Open
-Sans (gewicht 800) om in paden, zodat een SVG geen lettertype nodig heeft. De kleuren
+sjablonen bij elke build, en de CI draait dit script niet. Het zet de letters van IBM
+Plex Sans (gewicht 700) om in paden, zodat een SVG geen lettertype nodig heeft. De kleuren
 blijven verwijzingen ({{color.light.bar}}); die vult scripts/generate.mjs uit
 src/tokens.json, net als {{corner}}, de straal van de hoeken van de favicon.
 
@@ -21,9 +21,9 @@ from fontTools.ttLib import TTFont
 from fontTools.varLib.instancer import instantiateVariableFont
 
 ROOT = Path(__file__).resolve().parent.parent
-FONT = ROOT / "src" / "fonts" / "open-sans-latin-wght-normal.woff2"
+FONT = ROOT / "src" / "fonts" / "ibm-plex-sans-latin-wght-normal.woff2"
 LOGO = ROOT / "src" / "logo"
-WEIGHT = 800
+WEIGHT = 700
 
 
 def number(value):
@@ -63,19 +63,18 @@ def outline(font, text, size, tracking, dx=0.0, dy=0.0):
 
 def favicon(font):
     """64 x 64. "mv" is 31 px groot met -1 px tussen de letters, en staat in het midden
-    van het blauwe vlak boven de strook (x 32, y 25)."""
+    van het vlak (x 32, y 32)."""
     size, tracking = 31, -1 / 31
     _, (xmin, ymin, xmax, ymax) = outline(font, "mv", size, tracking)
-    paths, _ = outline(font, "mv", size, tracking, 32 - (xmin + xmax) / 2, 25 - (ymin + ymax) / 2)
+    paths, _ = outline(font, "mv", size, tracking, 32 - (xmin + xmax) / 2, 32 - (ymin + ymax) / 2)
     return "\n".join([
-        "<!-- Favicon van mvesign: een blauw vlak met afgeronde hoeken, onderaan een diepblauwe",
-        "     strook, en mv in goud. Gemaakt met scripts/outline-text.py. scripts/generate.mjs vult",
-        "     de kleuren uit src/tokens.json, en {{corner}} met de straal van de hoeken. -->",
+        "<!-- Favicon van mvesign: een vlak in de kleur van de balk, met afgeronde hoeken, en mv",
+        "     in goud. Gemaakt met scripts/outline-text.py. scripts/generate.mjs vult de kleuren",
+        "     uit src/tokens.json, en {{corner}} met de straal van de hoeken. -->",
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">',
         '  <clipPath id="mv-favicon-shape"><rect width="64" height="64" rx="{{corner}}"/></clipPath>',
         '  <g clip-path="url(#mv-favicon-shape)">',
         '    <rect width="64" height="64" fill="{{color.light.bar}}"/>',
-        '    <rect y="50" width="64" height="14" fill="{{color.light.bar_edge}}"/>',
         "  </g>",
         '  <g fill="{{color.light.accent}}">',
         *[f'    <path d="{d}"/>' for _, d in paths],
@@ -86,14 +85,14 @@ def favicon(font):
 
 
 def wordmark(font):
-    """mvesign, 100 px groot, met -0,015 em tussen de letters. De viewBox sluit precies om
+    """mvesign, 100 px groot, met -0,01 em tussen de letters. De viewBox sluit precies om
     de letters. De m en de v staan in een eigen groep (class mv)."""
-    size, tracking = 100, -0.015
+    size, tracking = 100, -0.01
     _, (xmin, ymin, xmax, ymax) = outline(font, "mvesign", size, tracking)
     paths, _ = outline(font, "mvesign", size, tracking, -xmin, -ymin)
     width, height = number(xmax - xmin), number(ymax - ymin)
     return "\n".join([
-        "<!-- Woordmerk van mvesign: wit, voor op de blauwe balk. De m en de v staan in een",
+        "<!-- Woordmerk van mvesign: licht, voor op de donkere balk. De m en de v staan in een",
         "     groep met class mv, zodat een pagina die de SVG in de HTML zet ze bij aanwijzen",
         "     goud kan maken. Gemaakt met scripts/outline-text.py. scripts/generate.mjs vult",
         "     de kleuren uit src/tokens.json. -->",

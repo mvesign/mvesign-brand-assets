@@ -2,7 +2,7 @@
 // src/ en dist/ samen; de CI faalt als dist/ niet klopt met de bron. Zie README.md.
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { buildCss, buildJson, validateTokens } from './lib/tokens.mjs';
-import { buildFontsCss } from './lib/fonts.mjs';
+import { buildFontsCss, fontFiles, validateFonts } from './lib/fonts.mjs';
 import { fillTemplate, flatten } from './lib/svg.mjs';
 import { renderPng } from './lib/png.mjs';
 
@@ -28,7 +28,7 @@ async function readJson(url) {
 
 async function main() {
   const tokens = validateTokens(await readJson(new URL('tokens.json', src)));
-  const fonts = await readJson(new URL('fonts/fonts.json', src));
+  const fonts = validateFonts(await readJson(new URL('fonts/fonts.json', src)), tokens.font);
   const json = buildJson(tokens);
 
   await rm(dist, { recursive: true, force: true });
@@ -37,8 +37,8 @@ async function main() {
 
   await writeFile(new URL('tokens.css', dist), buildCss(tokens));
   await writeFile(new URL('tokens.json', dist), `${JSON.stringify(json, null, 2)}\n`);
-  await writeFile(new URL('fonts.css', dist), buildFontsCss(tokens.font.family, fonts));
-  for (const file of [...fonts.files.map((font) => font.file), 'OFL.txt']) {
+  await writeFile(new URL('fonts.css', dist), buildFontsCss(fonts));
+  for (const file of fontFiles(fonts)) {
     await cp(new URL(`fonts/${file}`, src), new URL(`fonts/${file}`, dist));
   }
 
